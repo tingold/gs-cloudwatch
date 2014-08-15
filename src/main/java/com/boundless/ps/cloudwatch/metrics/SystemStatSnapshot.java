@@ -1,7 +1,9 @@
 package com.boundless.ps.cloudwatch.metrics;
 
 import java.util.Date;
-
+/**
+ *  Stolen from the MapMeter extension
+ */
 public class SystemStatSnapshot {
 
     private final long totalMemoryUsage;

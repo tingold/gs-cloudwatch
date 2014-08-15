@@ -11,8 +11,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-//stolen from the MapMeter plugin
 
+/**
+ *  stolen from the the MapMeter extension 
+ */
 
 public class JmxSystemMonitor implements SystemMonitor, MetricProvider{
 
@@ -55,7 +57,7 @@ public class JmxSystemMonitor implements SystemMonitor, MetricProvider{
     }
 
     @Override
-    public Collection<MetricDatum> getStatistics() {
+    public Collection<MetricDatum> getMetrics() {
         
         
       SystemStatSnapshot snap = this.pollSystemStatSnapshot();
@@ -68,7 +70,7 @@ public class JmxSystemMonitor implements SystemMonitor, MetricProvider{
       jreStats.add(encoder.encodeDatum(JRE_TOTAL, new Double(snap.getTotalMemoryUsage()), MetricDatumEncoder.UOM.Bytes));
         
         
-        return Collections.synchronizedList(jreStats);
+        return Collections.unmodifiableCollection(jreStats);
     }
 
     /**

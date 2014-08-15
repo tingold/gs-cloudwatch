@@ -46,7 +46,9 @@ public class CloudwatchSender {
         }
     }    
             
-
+    /**
+     * Invoked by spring on a timer to get and send from all metric providers
+     */
     public void sendAllMetrics()
     {
         
@@ -59,17 +61,17 @@ public class CloudwatchSender {
         for(MetricProvider mp: providers)
         {
             
-            for(MetricDatum md: mp.getStatistics())
+            for(MetricDatum md: mp.getMetrics())
             {
                 try{
                     logger.debug("Sending statistic {}", md.getMetricName());
                     PutMetricDataRequest request = new PutMetricDataRequest().withNamespace("geoserver").withMetricData(md);
                     cloudwatch.putMetricDataAsync(request);               
-                    logger.debug("Sending statistic {}", md.getMetricName());
+                    logger.debug("Sent statistic {}", md.getMetricName());
                 }
                 catch(AmazonClientException ex)
                 {
-                    logger.warn("Erro sending AWS metric {}", md.getMetricName());
+                    logger.warn("Error sending AWS metric {}", md.getMetricName());
                 }
             }                            
         }

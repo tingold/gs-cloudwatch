@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package com.boundless.ps.cloudwatch.aws;
 
@@ -15,13 +11,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Tom
+ * @author tingold@boundlessgeo.com
  */
 public class MetricDatumEncoder 
 {
 
     protected String amiId = "";
     protected String instanceType = "";
+    protected String instanceId = "";
     
     protected static final Logger logger = LoggerFactory.getLogger(MetricDatumEncoder.class);
     protected boolean setup = false;
@@ -31,10 +28,12 @@ public class MetricDatumEncoder
     {
       try
         {
-            amiId = EC2MetadataUtils.getAmiId();
+            amiId = EC2MetadataUtils.getAmiId();            
             logger.info("Detected AMI ID of {}", amiId);
             instanceType = EC2MetadataUtils.getInstanceType();
             logger.info("Detected Instance Type = {}", instanceType);
+            instanceId = EC2MetadataUtils.getInstanceId();
+            logger.info("Detected Instance Id of {}", instanceId);
             setup = true;
         
         }
@@ -59,7 +58,7 @@ public class MetricDatumEncoder
     
          MetricDatum memoryMD = new MetricDatum().withDimensions(
                  new Dimension().withName("InstanceType").withValue(instanceType), 
-                 new Dimension().withName("InstanceID").withValue(amiId))
+                 new Dimension().withName("InstanceID").withValue(instanceId))
           .withMetricName(name).withTimestamp(new Date()).withUnit(uom.getUnit()).withValue(value);
                 
          return memoryMD;        
