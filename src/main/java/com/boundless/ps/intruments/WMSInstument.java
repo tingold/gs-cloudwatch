@@ -44,19 +44,17 @@ public class WMSInstument implements MethodInterceptor, MetricProvider{
         owsErrorMeter = metricRegistry.meter("geoserver.ows.errors");
         wmsErrorMeter = metricRegistry.meter("geoserver.ows.wms.errors");
     }
-    
-    
-    
-    
+   
+      
     @Override
     public Collection<MetricDatum> getMetrics() 
     {
         List<MetricDatum> metrics = new ArrayList<>();
         
-        metrics.add(encoder.encodeDatum("geoserver.ows.wms.requests",wmsRequestMeter.getOneMinuteRate(), UOM.Count_Second));
-        metrics.add(encoder.encodeDatum("geoserver.ows.requests",owsRequestMeter.getOneMinuteRate(), UOM.Count_Second));
-        metrics.add(encoder.encodeDatum("geoserver.ows.wms.errors",wmsErrorMeter.getOneMinuteRate(), UOM.Count_Second));
-        metrics.add(encoder.encodeDatum("geoserver.ows.errors",owsErrorMeter.getOneMinuteRate(), UOM.Count_Second));
+        metrics.add(encoder.encodeDatum("geoserver-ows-wms-requests",wmsRequestMeter.getOneMinuteRate(), UOM.Count_Second));
+        metrics.add(encoder.encodeDatum("geoserver-ows-requests",owsRequestMeter.getOneMinuteRate(), UOM.Count_Second));
+        metrics.add(encoder.encodeDatum("geoserver-ows-wms-errors",wmsErrorMeter.getOneMinuteRate(), UOM.Count_Second));
+        metrics.add(encoder.encodeDatum("geoserver-ows-errors",owsErrorMeter.getOneMinuteRate(), UOM.Count_Second));
                 
         return Collections.unmodifiableCollection(metrics);
     }
